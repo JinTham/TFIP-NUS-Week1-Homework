@@ -38,10 +38,11 @@ public class ClientHandler {
             while (!stop){
                 String input = dis.readUTF();
                 String[] inputStream = input.split(" ");
+                //Exit button
                 if (input.equals("exit")){
                     System.out.println("exit");
                     stop = true;
-                        break;
+                    break;
                 }
                 //Load user first
                 if (inputStream[0].equals("load")) {
@@ -61,9 +62,17 @@ public class ClientHandler {
                         tempCart.add(line.split(" ")[1]);
                     }  
                 }
-                if (cartOwner.equals("")){
+                //Users button to list out all users
+                if (input.equals("users")){
+                    File directory = dirPath.toFile();
+                    reply = "List of users:\n";
+                    for (File file: directory.listFiles()) {
+                        reply += String.format("%s (%d)\n", file.getName().substring(0,file.getName().length()-9), file.length());
+                    }
+                } else if (cartOwner.equals("")){
                     reply = "Please load a user first.\n";
                 } else {
+                    //Below options are only allowed after loading a user
                     switch (inputStream[0]){
                         case "load":
                             break;

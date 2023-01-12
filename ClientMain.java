@@ -10,8 +10,18 @@ import java.net.Socket;
 
 public class ClientMain {
     public static void main(String[] args) throws IOException{
-        String host = args[0];
-        int port = Integer.parseInt(args[1]);
+        String host;
+        int port;
+        if (args.length<=0){
+            host = "127.0.0.1";
+            port = 3000; 
+        } else if (args.length<=1){
+            host = args[0];
+            port = 3000;
+        } else {
+            host = args[0];
+            port = Integer.parseInt(args[1]);
+        }
         //Connect to server
         Socket cConn = new Socket(host,port);
         System.out.printf("Connected to server %s on port:%d\n",host,port);

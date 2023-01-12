@@ -9,6 +9,20 @@ import java.nio.file.Paths;
 
 public class ServerMain {
     public static void main(String[] args) throws IOException{
+        //Getting directory
+        String dir = "shoppingcart";
+        if (args.length>0){
+            dir = args[0];
+        }
+        Path dirPath = Paths.get(dir);
+        File directory = dirPath.toFile();
+        if (!directory.exists()){ //If the directory doesn't exist, create one
+            directory.mkdirs();
+        }
+        int fileCount = directory.list().length;
+        System.out.printf("Using %s directory for persistence\n",dirPath);
+        System.out.printf("There are %d carts in %s directory\n",fileCount,dirPath);
+        //Setup port
         int port = 3000;
         if (args.length>1){
             port = Integer.parseInt(args[1]);
@@ -17,11 +31,6 @@ public class ServerMain {
         ServerSocket server = new ServerSocket(port);
         while (true){
             //Wait for a connection
-            Path dirPath = Paths.get(args[0]);
-            File directory = dirPath.toFile();
-            int fileCount=directory.list().length;
-            System.out.printf("Using %s directory for persistence\n",dirPath);
-            System.out.printf("There are %d carts in shoppingcart directory at %s\n",fileCount,dirPath);
             System.out.println("Waiting for incoming connection");
             Socket sConn = server.accept();
             System.out.println("Got a connection");
